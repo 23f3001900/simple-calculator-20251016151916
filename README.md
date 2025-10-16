@@ -1,51 +1,28 @@
+# Simple Calculator
 
+A responsive calculator application with improved UI and full arithmetic functionality. Supports addition, subtraction, multiplication, division, and expression clearing.
 
-# Clean Calculator
-
-A modern, responsive calculator web app with an improved user interface and fully functional math operations.
-
----
-
-## Features
-
-✅ **Stylish UI**  
-- Clean, modern design with smooth transitions  
-- Grid layout for intuitive number and operator placement  
-- Color-coded buttons for different functions  
-
-✅ **Full Functionality**  
-- Supports all basic operations: addition, subtraction, multiplication, division  
-- Handles decimals and keyboard input  
-- Error handling for invalid expressions  
-
-✅ **Responsive Design**  
-- Fully mobile-friendly layout using Flexbox and media queries  
-- Perfect for both desktop and mobile users  
-
-✅ **Interactive**  
-- Supports both mouse clicks and keyboard input (numpad and standard keyboard)  
-- Responsive feedback with button press animations  
-- Clear button to reset the display  
-
----
+Key features:
+- Clean modern design with hover effects
+- Responsive layout for mobile and desktop
+- Error handling for division by zero
+- Support for complex expressions with parentheses
 
 ## Usage
 
-1. **Click the calculator buttons** to build expressions (e.g., 5 + 7 × 3)  
-2. **Press "=" or Enter** to see the result  
-3. **Use your keyboard** to type numbers and operation symbols  
-4. **Click "C" or press Backspace** to clear the display  
+1. Open `index.html` in a web browser
+2. Use number buttons to input digits
+3. Click operators (+, −, ×, ÷) to define calculations
+4. Press '=' to get the result
+5. Click 'C' to clear the calculator
 
----
+MIT License
 
-## Technical Details
+Copyright (c) 2024 Calculator Project
 
-- **Built with:** HTML, CSS, JavaScript  
-- **Design:** Mobile-first, responsive layout using Flexbox and Grid  
-- **Input Validation:** Ensures only valid calculator inputs are processed  
-- **No External Libraries:** Pure vanilla JavaScript for reliability and performance  
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
----
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-## How to Use
-
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
