@@ -1,186 +1,177 @@
-
-Alright, time to code. Start with the HTML structure, then add styles, then the JavaScript functions. Check that all buttons have the right classes and event listeners. Make sure the display updates correctly and calculations work. Then write the README explaining the features and usage. License it under MIT as requested.
-</think>
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Clean Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       display: flex;
+      height: 100vh;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background: #f2f2f7;
-      font-family: Arial, sans-serif;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
     }
     .calculator {
-      background: #ffffff;
-      padding: 20px;
+      background: #fff;
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      max-width: 360px;
-      width: 95%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      padding: 1rem;
+      width: 300px;
+      max-width: 90vw;
     }
-    .display {
+    #display {
       width: 100%;
-      height: 60px;
-      background: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      margin-bottom: 20px;
       font-size: 2rem;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
       text-align: right;
-      padding: 16px;
-      line-height: 1.2;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      overflow-x: auto;
-      scrollbar-width: none;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
     }
-    .display::-webkit-scrollbar { display: none; }
-    .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
     button {
-      padding: 20px;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
+      padding: 1rem;
       border: none;
-      border-radius: 12px;
+      border-radius: 8px;
       cursor: pointer;
+      background: #e0e0e0;
       transition: all 0.2s;
     }
-    button:active { transform: scale(0.98); }
-    .operator { background-color: #4caf50; color: white; }
-    .clear { background-color: #f44336; color: white; }
-    .equal { background-color: #ff9800; color: white; }
-    button:hover { opacity: 0.9; }
-    @media (max-width: 400px) {
-      .buttons { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    button:hover {
+      background: #d0d0d0;
+    }
+    .operator {
+      background: #ffc107;
+    }
+    .operator:hover {
+      background: #ffca28;
+    }
+    .clear {
+      background: #ef5350;
+      color: white;
+    }
+    .clear:hover {
+      background: #e53935;
+    }
+    .equals {
+      background: #4caf50;
+      color: white;
+      grid-column: span 2;
+    }
+    .equals:hover {
+      background: #43a047;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    @media (min-width: 500px) {
+      #display {
+        font-size: 2.5rem;
+      }
+      button {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="calculator">
-    <div class="display" id="display">0</div>
+    <input type="text" id="display" value="0" disabled>
     <div class="buttons">
-      <button onclick="appendValue('7')">7</button>
-      <button onclick="appendValue('8')">8</button>
-      <button onclick="appendValue('9')">9</button>
-      <button class="operator" onclick="appendOperator('/')">÷</button>
-      
-      <button onclick="appendValue('4')">4</button>
-      <button onclick="appendValue('5')">5</button>
-      <button onclick="appendValue('6')">6</button>
-      <button class="operator" onclick="appendOperator('*')">×</button>
-      
-      <button onclick="appendValue('1')">1</button>
-      <button onclick="appendValue('2')">2</button>
-      <button onclick="appendValue('3')">3</button>
-      <button class="operator" onclick="appendOperator('-')">−</button>
-      
-      <button onclick="appendValue('0')">0</button>
-      <button onclick="appendOperator('.')">.</button>
-      <button onclick="clearDisplay()" class="clear">C</button>
-      <button class="operator equal" onclick="calculateResult()">=</button>
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button onclick="appendNumber('(')">(</button>
+      <button onclick="appendNumber(')')">)</button>
+      <button class="operator" onclick="setOperation('/')">÷</button>
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button class="operator" onclick="setOperation('*')">×</button>
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button class="operator" onclick="setOperation('-')">−</button>
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button class="operator" onclick="setOperation('+')">+</button>
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="appendNumber('.')">.</button>
+      <button class="equals" onclick="calculateResult()">=</button>
     </div>
   </div>
 
   <script>
-    let currentInput = "0";
+    let currentInput = '';
+    let previousInput = '';
+    let operation = '';
+    let pendingOperation = false;
 
-    function appendValue(value) {
-      if (currentInput === "0" && value !== ".") {
-        currentInput = value;
-      } else {
-        currentInput += value;
-      }
+    function updateDisplay() {
+      document.getElementById('display').value = currentInput || '0';
+    }
+
+    function appendNumber(number) {
+      currentInput = currentInput === '0' && number === '0' 
+        ? '0' 
+        : (currentInput === '0' ? '' : currentInput) + number;
       updateDisplay();
     }
 
-    function appendOperator(operator) {
-      const lastChar = currentInput.at(-1);
-      if ("+-*/".includes(lastChar)) {
-        return;
+    function setOperation(op) {
+      if (currentInput === '') return;
+      if (previousInput !== '') {
+        calculate();
       }
-      currentInput += operator;
-      updateDisplay();
+      operation = op;
+      previousInput = currentInput;
+      currentInput = '';
+      pendingOperation = true;
     }
 
-    function clearDisplay() {
-      currentInput = "0";
+    function calculate() {
+      const prev = parseFloat(previousInput);
+      const current = parseFloat(currentInput);
+      
+      if (isNaN(prev) || isNaN(current)) return;
+      
+      switch(operation) {
+        case '+': currentInput = (prev + current).toString(); break;
+        case '-': currentInput = (prev - current).toString(); break;
+        case '*': currentInput = (prev * current).toString(); break;
+        case '/': 
+          currentInput = current === 0 ? 'Error' : (prev / current).toString(); 
+          break;
+      }
+      
+      previousInput = '';
+      pendingOperation = false;
       updateDisplay();
     }
 
     function calculateResult() {
-      try {
-        const sanitizedInput = currentInput.replace(/[^0-9+\-*/.]/g, '');
-        const result = eval(sanitizedInput).toString();
-        if (!isNaN(result)) {
-          currentInput = result;
-        } else {
-          currentInput = "Error";
-        }
-      } catch {
-        currentInput = "Error";
+      if (pendingOperation && previousInput && currentInput) {
+        calculate();
       }
+    }
+
+    function clearDisplay() {
+      currentInput = '';
+      previousInput = '';
+      operation = '';
+      pendingOperation = false;
       updateDisplay();
     }
-
-    function updateDisplay() {
-      document.getElementById("display").textContent = currentInput;
-    }
-
-    // Keyboard support
-    document.addEventListener("keydown", (e) => {
-      if ("0123456789".includes(e.key)) {
-        appendValue(e.key);
-      } else if (["+", "-", "*", "/"].includes(e.key)) {
-        appendOperator(e.key);
-      } else if (e.key === ".") {
-        appendValue(".");
-      } else if (e.key === "Enter") {
-        e.preventDefault();
-        calculateResult();
-      } else if (e.key === "Backspace") {
-        currentInput = "0";
-        updateDisplay();
-      }
-    });
   </script>
 </body>
 </html>
+```
 
----
-
-2. Use the calculator like a physical device:
-   - Click buttons to build expressions  
-   - Get instant visual feedback on the display  
-   - Press "C" to clear the current expression  
-   - Press "=" to see the result  
-
----
-
-## Error Handling
-
-The calculator will show "Error" for:
-- Invalid expressions (e.g., division by zero)  
-- Malformed input patterns  
-- Untrusted or non-mathematical input  
-
----
-
-## License
-
-MIT License
-
----
-
-## Author
-
-Created by [Senior Front-End Developer](https://example.com)  
-Feel free to use, modify, or redistribute this code under the MIT license.
+README.md
+```
